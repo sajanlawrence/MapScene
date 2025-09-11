@@ -18,7 +18,7 @@ class LocationsViewModel: ObservableObject{
     }
     @Published var cameraPosition: MapCameraPosition
     var mapRegion: MKCoordinateRegion = MKCoordinateRegion()
-    let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+    let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     @Published var showLocationsList: Bool = false
     
     init() {
@@ -48,5 +48,15 @@ class LocationsViewModel: ObservableObject{
             mapLocation = location
             showLocationsList = false
         }
+    }
+    
+    func nextButtonPressed(){
+        guard let currentIndex = locations.firstIndex(where: { $0 == mapLocation }) else { return }
+        
+        var nextIndex = currentIndex + 1
+        if nextIndex >= locations.count{
+            nextIndex = 0
+        }
+        showNextLocation(location: locations[nextIndex])
     }
 }

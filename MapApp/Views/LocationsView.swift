@@ -10,21 +10,52 @@ import MapKit
 
 struct LocationsView: View {
     @EnvironmentObject private var vm: LocationsViewModel
-    
     var body: some View {
         ZStack{
-            Map(position: $vm.cameraPosition)
-            
+            mapLayer
             VStack(spacing: 0){
                 header
                 Spacer()
+                locationPreviewStack
             }
-            
         }
     }
 }
 
 extension LocationsView{
+    private var mapLayer: some View{
+        Map(position: $vm.cameraPosition){
+            ForEach(vm.locations) { location in
+                Annotation(location.name, coordinate: location.coordinates) {
+                    LocationMapAnnotationView(location: location)
+                        .scaleEffect(location == vm.mapLocation ? 1.5 : 1.0)
+                        .onTapGesture {
+                            vm.showNextLocation(location: location)
+                        }
+                }
+                //Marker(location.name, coordinate: location.coordinates)
+            }
+        }
+        //.mapStyle(.hybrid)
+    }
+    
+    private var locationPreviewStack: some View{
+        ZStack{
+            ForEach(vm.locations) { location in
+                if vm.mapLocation == location{
+                    LocationPreviewView(location: location)
+                        .padding()
+                        .shadow(radius: 20)
+                        .transition(
+                            .asymmetric(
+                                insertion: .move(edge: .trailing),
+                                removal: .move(edge: .leading))
+                        )
+                }
+            }
+        }
+    }
+    
     private var header: some View {
         VStack{
             Button(action: vm.toggleLocationsList) {

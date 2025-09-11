@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LocationPreviewView: View {
+    @EnvironmentObject private var vm: LocationsViewModel
     @State var location: Location
     var body: some View {
         HStack(alignment: .bottom, spacing: 0.0) {
@@ -72,7 +73,7 @@ extension LocationPreviewView{
     
     private var nextButton: some View{
         Button {
-            
+            vm.nextButtonPressed()
         } label: {
             Text("Next")
                 .frame(width: 100, height: 30)
@@ -88,6 +89,7 @@ extension LocationPreviewView{
             .ignoresSafeArea()
         LocationPreviewView(location: Location.default)
             .padding()
+            .environmentObject(LocationsViewModel())
     }
         
 }
