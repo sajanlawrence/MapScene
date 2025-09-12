@@ -37,12 +37,12 @@
       <strong>Home Screen</strong><br>
       <img src="Assets/Home.png" alt="Home Screen" width="250"/>
     </td>
-  </tr>
-  <tr>
-    <td align="center">
+        <td align="center">
       <strong>Location List Screen</strong><br>
       <img src="Assets/list.png" alt="Add Items Screen" width="250"/>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <strong>Details Screen</strong><br>
       <img src="Assets/Details.png" alt="Edit Screen" width="250"/>
