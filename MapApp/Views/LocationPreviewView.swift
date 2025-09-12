@@ -30,7 +30,6 @@ struct LocationPreviewView: View {
                 .offset(y: 65)
         }
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        
     }
 }
 
@@ -62,7 +61,7 @@ extension LocationPreviewView{
     
     private var learnMoreButton: some View{
         Button {
-            
+            vm.sheetLocation = location
         } label: {
             Text("Learn more")
                 .frame(width: 100, height: 30)
@@ -91,5 +90,5 @@ extension LocationPreviewView{
             .padding()
             .environmentObject(LocationsViewModel())
     }
-        
+    
 }

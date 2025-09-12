@@ -20,6 +20,7 @@ class LocationsViewModel: ObservableObject{
     var mapRegion: MKCoordinateRegion = MKCoordinateRegion()
     let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     @Published var showLocationsList: Bool = false
+    @Published var sheetLocation: Location? = nil
     
     init() {
         let locations = LocationsDataService.locations
@@ -58,5 +59,11 @@ class LocationsViewModel: ObservableObject{
             nextIndex = 0
         }
         showNextLocation(location: locations[nextIndex])
+    }
+    
+    func createMapCameraPosition(for location: Location) -> MapCameraPosition{
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: location.coordinates, span: span)
+        return MapCameraPosition.region(region)
     }
 }

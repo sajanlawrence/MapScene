@@ -10,15 +10,21 @@ import MapKit
 
 struct LocationsView: View {
     @EnvironmentObject private var vm: LocationsViewModel
+    let maxWidthForIpad: CGFloat = 700.0
     var body: some View {
         ZStack{
             mapLayer
+                .ignoresSafeArea()
             VStack(spacing: 0){
                 header
                 Spacer()
                 locationPreviewStack
             }
         }
+        .fullScreenCover(item: $vm.sheetLocation, content: { location in
+            LocationDetailView(location: location)
+                .presentationDetents([.large])
+        })
     }
 }
 
@@ -46,6 +52,8 @@ extension LocationsView{
                     LocationPreviewView(location: location)
                         .padding()
                         .shadow(radius: 20)
+                        .frame(maxWidth: maxWidthForIpad)
+                        .frame(maxWidth: .infinity)
                         .transition(
                             .asymmetric(
                                 insertion: .move(edge: .trailing),
@@ -62,20 +70,23 @@ extension LocationsView{
                 Text(vm.mapLocation.name + ", " + vm.mapLocation.cityName)
                     .font(.title2)
                     .fontWeight(.black)
+                    .foregroundColor(.primary)
                     .frame(height: 55)
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: maxWidthForIpad)
                     .animation(.none, value: vm.mapLocation)
                     .overlay(alignment: .leading) {
                         Image(systemName: "arrow.down")
+                            .foregroundColor(.primary)
                             .font(.title3)
                             .padding()
                             .rotationEffect(Angle(degrees: vm.showLocationsList ? 180 : 0))
                     }
-                    .foregroundStyle(.black)
+                
             }
             
             if vm.showLocationsList{
                 LocationListView()
+                    .frame(maxWidth: maxWidthForIpad)
             }
         }
         .background(.thinMaterial)
